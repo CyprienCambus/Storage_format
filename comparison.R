@@ -5,7 +5,7 @@ library(RSQLite)
 
 
 # Read the original data as csv 
-df_csv <- read.csv("data_uci.csv")
+df_csv <- read.csv("data/data_uci.csv")
 
 # Save data on feather file, RData, rds
 
@@ -13,7 +13,7 @@ df_csv <- read.csv("data_uci.csv")
 # save(df_csv, file = "data_uci.RData")
 # saveRDS(df_csv, file = "data_uci.Rds")
 #write_parquet(df_csv,"data_uci.parquet")
-db <- dbConnect(SQLite(), "data_uci.sqlite")
+db <- dbConnect(SQLite(), "data/data_uci.sqlite")
 # dbWriteTable(db, "database", df_csv)
 
 
@@ -22,22 +22,22 @@ db <- dbConnect(SQLite(), "data_uci.sqlite")
 
 
 mbm <- microbenchmark("read_csv" = { 
-                        read.csv("data_uci.csv") 
+                        read.csv("data/data_uci.csv") 
                       },
                       "RData" = {
-                        load("data_uci.RData")
+                        load("data/data_uci.RData")
                       },
                       "RDS" = {
-                        readRDS("data_uci.Rds")
+                        readRDS("data/data_uci.Rds")
                       },
                       "sqlite" = {
                         dbReadTable(db, "database")
                       },
                       "feather" = {
-                        read_feather("data_uci.feather")
+                        read_feather("data/data_uci.feather")
                       },
                       "parquet" = {
-                        read_parquet("data_uci.parquet")
+                        read_parquet("data/data_uci.parquet")
                       },
                       times = 150)
 mbm
